@@ -55,6 +55,9 @@ class  Lattice4D {
   Lattice4D(char *part_file, int xlen, int ylen, int zlen, int tlen,
 	    int nsp, int *ntp, int nid, int myid,
 	    bool track_ids = false, int ghost = 0);
+  Lattice4D(int xlen, int ylen, int zlen, int tlen, int xPartition, int yPartition, int zPartition,
+      int *ntp, int nid = 1, int myid = 0, 
+      bool track_ids = false, int ghost  = 0);
 
   ~Lattice4D(); 
   int GetRank(int i, int j, int k, int l);
@@ -157,6 +160,9 @@ class  Lattice4D {
 		    int &kdim);
   void ComputePartition(int *data_dim, int ghost, 
 				    int nsp, int ntp, int *lat_dim);
+  void ComputePartition(int *data_dim, int ghost, 
+            int ntp, int *lat_dim);
+  
   void ApplyGhost(int ghost);
   int GetNumPartitions(int proc);
   void FindTimeBounds();
