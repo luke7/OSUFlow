@@ -10,6 +10,11 @@
 
 #include "Field.h"
 
+#if WITH_UNCERTAIN
+#include <time.h>       /* time */
+#include "boxMuller.h"
+#endif
+
 #pragma warning(disable : 4251 4100 4244 4101)
 
 
@@ -140,6 +145,31 @@ int CVectorField::at_phys(const VECTOR3 &pos, float t, VECTOR3& vecData)
 	// interpolate in the cell
 	m_pGrid->interpolate(vecData, vNodeData, pInfo.interpolant);
 
+	//ADD_BY_KEWEI_START 01/26/2015
+#if WITH_UNCERTAIN
+	double angleChange=generateGaussianNoise(0.0,1.0);
+	//cout<<angleChange<<endl;
+	angleChange=(angleChange>1.0)? 1 : angleChange; 
+	VECTOR3 errorV;
+	errorV[0]=vecData[0]*cos(angleChange) + vecData[1]*sin(angleChange);
+	errorV[1]=-vecData[0]*sin(angleChange) + vecData[1]*cos(angleChange);
+	vecData[0]=errorV[0];
+	vecData[1]=errorV[1];
+
+	//errorV[0] = ((float) rand()) / (float) RAND_MAX;
+	//errorV[1] = ((float) rand()) / (float) RAND_MAX;
+	//errorV[2] = ((float) rand()) / (float) RAND_MAX;
+	//errorV.Normalize();
+	//cout<<vecData[0]<<","<<vecData[1]<<","<<vecData[2]<<endl;
+	//vecData[0]+=errorV[0]*0.2;
+	//vecData[1]+=errorV[1]*0.2;
+	//vecData[2]+=errorV[2]*0.2;
+	//cout<<errorV[0]<<","<<errorV[1]<<","<<errorV[2]<<endl;
+	//cout<<vecData[0]<<","<<vecData[1]<<","<<vecData[2]<<endl;
+	//cout<<"-----------------------"<<endl;
+#endif
+	//ADD_BY_KEWEI_END 01/26/2015
+
 	return 1;
 }
 
@@ -163,6 +193,32 @@ int CVectorField::at_phys(const int fromCell,
 
 	// interpolate in the cell
 	m_pGrid->interpolate(nodeData, vNodeData, pInfo.interpolant);
+
+	//ADD_BY_KEWEI_START 01/26/2015
+#if WITH_UNCERTAIN
+	double angleChange=generateGaussianNoise(0.0,1.0);
+	//cout<<angleChange<<endl;
+	VECTOR3 errorV;
+	errorV[0]=nodeData[0]*cos(angleChange) + nodeData[1]*sin(angleChange);
+	errorV[1]=-nodeData[0]*sin(angleChange) + nodeData[1]*cos(angleChange);
+	nodeData[0]=errorV[0];
+	nodeData[1]=errorV[1];
+
+	//errorV[0] = ((float) rand()) / (float) RAND_MAX;
+	//errorV[1] = ((float) rand()) / (float) RAND_MAX;
+	//errorV[2] = ((float) rand()) / (float) RAND_MAX;
+	//errorV.Normalize();
+	
+	//cout<<nodeData[0]<<","<<nodeData[1]<<","<<nodeData[2]<<endl;
+	//nodeData[0]+=errorV[0]*0.9;
+	//nodeData[1]+=errorV[1]*0.9;
+	//nodeData[2]+=errorV[2]*0.2;
+
+	//cout<<errorV[0]<<","<<errorV[1]<<","<<errorV[2]<<endl;
+	//cout<<nodeData[0]<<","<<nodeData[1]<<","<<nodeData[2]<<endl;
+	//cout<<"-----------------------"<<endl;
+#endif
+	//ADD_BY_KEWEI_END 01/26/2015
 
 	return 1;
 }
