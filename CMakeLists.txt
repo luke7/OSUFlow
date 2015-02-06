@@ -39,7 +39,15 @@ if( ${WITH_UNISTD} )
 		-DWITH_UNISTD
 	)
 endif()
-# ADD-BY-LEETEN 12/16/2011-END
+
+# ADD-BY-KEWEI 1/26/2011-BEGIN
+set(WITH_UNCERTAIN FALSE CACHE BOOL "Specify whether use uncertain particle trace.")
+if( ${WITH_UNCERTAIN} )
+	add_definitions(
+		-DWITH_UNCERTAIN
+	)
+endif()
+# ADD-BY-KEWEI 1/26/2015-END
 
 add_definitions(
 	-D_OSUFLOW
