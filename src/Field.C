@@ -147,14 +147,17 @@ int CVectorField::at_phys(const VECTOR3 &pos, float t, VECTOR3& vecData)
 
 	//ADD_BY_KEWEI_START 01/26/2015
 #if WITH_UNCERTAIN
-	double angleChange=generateGaussianNoise(0.0,1.0);
+	double u=generateGaussianNoise(vecData[0],1.0);
+	double v=generateGaussianNoise(vecData[1],1.0);
+	vecData[0]=u;
+	vecData[1]=v;
 	//cout<<angleChange<<endl;
-	angleChange=(angleChange>1.0)? 1 : angleChange; 
-	VECTOR3 errorV;
-	errorV[0]=vecData[0]*cos(angleChange) + vecData[1]*sin(angleChange);
-	errorV[1]=-vecData[0]*sin(angleChange) + vecData[1]*cos(angleChange);
-	vecData[0]=errorV[0];
-	vecData[1]=errorV[1];
+	//angleChange=(angleChange>1.0)? 1 : angleChange; 
+	//VECTOR3 errorV;
+	//errorV[0]=vecData[0]*cos(angleChange) + vecData[1]*sin(angleChange);
+	//errorV[1]=-vecData[0]*sin(angleChange) + vecData[1]*cos(angleChange);
+	//vecData[0]=errorV[0];
+	//vecData[1]=errorV[1];
 
 	//errorV[0] = ((float) rand()) / (float) RAND_MAX;
 	//errorV[1] = ((float) rand()) / (float) RAND_MAX;
@@ -196,13 +199,16 @@ int CVectorField::at_phys(const int fromCell,
 
 	//ADD_BY_KEWEI_START 01/26/2015
 #if WITH_UNCERTAIN
-	double angleChange=generateGaussianNoise(0.0,1.0);
+	double u=generateGaussianNoise(nodeData[0],1.0);
+	double v=generateGaussianNoise(nodeData[1],1.0);
+	nodeData[0]=u;
+	nodeData[1]=v;
 	//cout<<angleChange<<endl;
-	VECTOR3 errorV;
-	errorV[0]=nodeData[0]*cos(angleChange) + nodeData[1]*sin(angleChange);
-	errorV[1]=-nodeData[0]*sin(angleChange) + nodeData[1]*cos(angleChange);
-	nodeData[0]=errorV[0];
-	nodeData[1]=errorV[1];
+	//VECTOR3 errorV;
+	//errorV[0]=nodeData[0]*cos(angleChange) + nodeData[1]*sin(angleChange);
+	//errorV[1]=-nodeData[0]*sin(angleChange) + nodeData[1]*cos(angleChange);
+	//nodeData[0]=errorV[0];
+	//nodeData[1]=errorV[1];
 
 	//errorV[0] = ((float) rand()) / (float) RAND_MAX;
 	//errorV[1] = ((float) rand()) / (float) RAND_MAX;
