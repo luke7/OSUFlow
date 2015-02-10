@@ -150,6 +150,7 @@ void vtCStreamLine::computeStreamLine(const void* userData,
 				listSeedTraces.push_back(forwardTrace);
 				if (listSeedIds != NULL)
 					(*listSeedIds).push_back(*sIdIter);
+
 			}
 		}
 		if( !m_lSeedIds.empty() ) 
@@ -239,12 +240,22 @@ int vtCStreamLine::computeFieldLine(TIME_DIR time_dir,
 			if(!m_adaptStepSize)
 			{
 				// can't change the step size, so advection just ends
+				//ADD_BY_KEWEI_BEGIN 02/03/2015
+				//add the last point which is out of boundary, so it is easy for flowgraph
+				//to determine the neighbor
+				seedTrace.push_back(new VECTOR3(thisParticle.phyCoord));
+				//ADD_BY_KEWEI
 				return OKAY;
 			}
 			else if(dt_attempt == m_fMinStepSize)
 			{
 				// tried to take a step with the min step size, 
 				// can't go any further
+				//ADD_BY_KEWEI_BEGIN 02/03/2015
+				//add the last point which is out of boundary, so it is easy for flowgraph
+				//to determine the neighbor
+				seedTrace.push_back(new VECTOR3(thisParticle.phyCoord));
+				//ADD_BY_KEWEI
 				return OKAY;
 			}
 			else
